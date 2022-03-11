@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: header">
+</head>
+<body>
+	<div>
+		<nav th:replace="fragments/common :: menu">
+
+		</nav>
+
+		<div class="container">
+			<h2>Détail de l'artiste [[${artist.name}]]</h2>
+			<div class="row">
+				<form id="saveForm" action="/artists" method="post">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label for="name" class="form-control-label">Nom</label>
+							<input type="hidden" th:value="${artist.id}" th:name="id">
+							<input type="text" id="name" class="form-control" th:value="${artist.name}" name="name">
+
+
+							<label class="form-control-label">Albums</label>
+							<div class="row">
+								<ul th:each="album: ${artist.albums}">
+									<div class="col-lg-10">
+										<div class="list-group">
+											<li class="list-group-item" th:text="${album.title}">&nbsp;Let There Be Rock</li>
+										</div>
+									</div>
+									<div class="col-lg-2 text-center">
+										<div class="list-group text-center">
+											<a th:href="|/album/delete/${album.id}/${artist.id}|" class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></a>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="row">
+					<form id="saveAlbum" action="/album" method="post">
+						<div class="col-lg-10">
+							<input type="hidden" th:value="${artist.id}" name="artistId" id="artistId">
+							<input name="title" id="title" type="text" placeholder="Ajouter un album..." class="form-control">
+						</div>
+						<div class="col-lg-2 text-center">
+							<button form="saveAlbum" type="submit" class="btn-success list-group-item list-group-item-action"><span class="glyphicon glyphicon-plus"></span></button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="row">
+				<button class="btn btn-primary" form="saveForm" type="submit">Enregistrer</button>
+				<a class="btn btn-danger" th:href="|/artists/delete/${artist.id}|">Supprimer</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
